@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import (WeatherView, WeatherViewCities, WeatherViewCitiesCSV,
-                    UserRegistration, Root)
+
+from .views import (Root, UserRegistration, WeatherView, WeatherViewCities,
+                    WeatherViewCitiesCSV)
 
 urlpatterns = [
     path('', Root.as_view()),

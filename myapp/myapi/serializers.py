@@ -1,7 +1,7 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import WeatherCity, TopCities
-from django.contrib.auth.models import User
+from .models import TopCities, WeatherCity
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -23,10 +23,10 @@ class WeatherCitySerializer(serializers.ModelSerializer):
         fields = ['city', 'date', 'weather']
 
 
-class TopCitiesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TopCities
-        fields = ['city']
+# class TopCitiesSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = TopCities
+#         fields = ['city']
 
 
 class DateTimeSerializer(serializers.Serializer):

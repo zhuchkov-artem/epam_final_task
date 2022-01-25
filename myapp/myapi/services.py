@@ -1,15 +1,14 @@
 import csv
-import requests
 import json
 import time
 from abc import ABC, abstractmethod
 
-from datetime import datetime
+import requests
+from django.conf import settings
 from django.http import StreamingHttpResponse
 
-from .models import WeatherCity, TopCities
-from .serializers import WeatherCitySerializer, TopCitiesSerializer
-from django.conf import settings
+from .models import WeatherCity
+from .serializers import WeatherCitySerializer
 
 
 class ExternalWeatherRequest(ABC):
@@ -26,27 +25,11 @@ class ExternalWeatherRequest(ABC):
         units='metric' for temperature in Celsius
         units='imperial' for temperature in Fahrenheits
         """
+        time.sleep(1)  # External API call timeout
         api_url = cls.generate_api_url(city, units)
         response = requests.get(api_url)
         if response.ok:
             return json.loads(response.text)
-
-    @classmethod
-    def get_weather_top_cities(cls):
-        """
-        Get weather forecast for 100 most populated cities.
-        """
-        weather_top_cities = []
-        cities = TopCities.objects.all()
-        serializer = TopCitiesSerializer(cities, many=True)
-        for index in serializer.data:
-            city = index['city']
-            response = cls.get_city_weather(city=city, units='metric')
-            weather_top_cities.append({'city': city,
-                                       'date': datetime.now(),
-                                       'weather': json.loads(response.text)})
-            time.sleep(1)  # API call timeout
-        return weather_top_cities
 
 
 class OpenWeatherMap(ExternalWeatherRequest):
@@ -70,17 +53,6 @@ class WeatherStack(ExternalWeatherRequest):
         units = 'm' if units == 'metric' else 'f'
         parameters = f'?query={city}&units={units}&access_key={cls.api_key}'
         return cls.base_url + parameters
-
-
-def add_top_100_cities_weather_to_db(weather_info, weather):
-    """Save weather information into database"""
-    for info in weather_info:
-        try:
-            weather(city=info['city'],
-                    date=info['date'],
-                    weather=info['weather']).save()
-        except TypeError:
-            pass
 
 
 class Echo:

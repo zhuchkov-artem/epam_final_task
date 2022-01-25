@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)!l&rrcpj1b0&^+1=a^pe(dnbs^1oe7+c&@pz+$z_km+ia7hrl'
 OPEN_WEATHER_MAP_API_KEY = 'ee164832d238c4a26763363760005676'
 WEATHER_STACK_API_KEY = 'a1f36476fd5093780c850a3ee173a217'
-ACTIVE_WEATHER_SOURCE = 'WeatherStack'  # 'OpenWeatherMap' or 'WeatherStack'
+ACTIVE_WEATHER_SOURCE = 'OpenWeatherMap'  # 'OpenWeatherMap' or 'WeatherStack'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -1,17 +1,17 @@
+from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.conf import settings
+from rest_framework import status
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from .models import WeatherCity
-from .services import export_to_csv_from_database
-from . import services
-from .serializers import (WeatherCitySerializer, UserSerializer,
-                          DateTimeSerializer, CityUnitsSerializer)
+from rest_framework.views import APIView
 
+from . import services
+from .models import WeatherCity
+from .serializers import (CityUnitsSerializer, DateTimeSerializer,
+                          UserSerializer, WeatherCitySerializer)
+from .services import export_to_csv_from_database
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL')
 ACTIVE_WEATHER_SOURCE = getattr(settings, 'ACTIVE_WEATHER_SOURCE')

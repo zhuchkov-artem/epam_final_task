@@ -8,11 +8,10 @@ from django.conf import settings
 from django.http import StreamingHttpResponse
 
 from .models import WeatherCity
-from .serializers import WeatherCitySerializer
 
 
 class ExternalWeatherRequest(ABC):
-
+    """Abstract base class for weather service classes."""
     @classmethod
     @abstractmethod
     def generate_api_url(cls, city, units):
@@ -30,10 +29,11 @@ class ExternalWeatherRequest(ABC):
         response = requests.get(api_url)
         if response.ok:
             return json.loads(response.text)
+        return None
 
 
 class OpenWeatherMap(ExternalWeatherRequest):
-
+    """Weather service class for openweathermap.org API."""
     api_key = getattr(settings, 'OPEN_WEATHER_MAP_API_KEY')
     base_url = 'http://api.openweathermap.org/data/2.5/weather'
 
@@ -44,6 +44,7 @@ class OpenWeatherMap(ExternalWeatherRequest):
 
 
 class WeatherStack(ExternalWeatherRequest):
+    """Weather service class for weatherstack.com API."""
 
     api_key = getattr(settings, 'WEATHER_STACK_API_KEY')
     base_url = 'http://api.weatherstack.com/current'
@@ -64,14 +65,17 @@ class Echo:
         return value
 
 
-def export_to_csv_from_database(date_begin, date_end):
-    """this function used for get information from
-    database and write it into csv dict"""
-    weathers = WeatherCity.objects.filter(date__gte=date_begin,
-                                          date__lte=date_end)
-    serializer = WeatherCitySerializer(weathers, many=True)
+def csv_response(datetime_first, datetime_last):
+    """
+    Generate Http Response with .csv file
+    """
+    weathers = WeatherCity.objects.filter(date__gte=datetime_first,
+                                          date__lte=datetime_last)
     pseudo_buffer = Echo()
     writer = csv.writer(pseudo_buffer)
-    response = StreamingHttpResponse((writer.writerow([weather['city'], weather['date'], weather['weather']]) for weather in serializer.data), content_type="text/csv")
+    csv_data = (writer.writerow([weather.city,
+                                 weather.date,
+                                 weather.weather]) for weather in weathers)
+    response = StreamingHttpResponse(csv_data, content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="export.csv"'
     return response

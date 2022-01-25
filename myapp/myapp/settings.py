@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,9 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = 'django-insecure-)!l&rrcpj1b0&^+1=a^pe(dnbs^1oe7+c&@pz+$z_km+ia7hrl'
-OPEN_WEATHER_MAP_API_KEY = 'ee164832d238c4a26763363760005676'
-WEATHER_STACK_API_KEY = 'a1f36476fd5093780c850a3ee173a217'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+OPEN_WEATHER_MAP_API_KEY = os.environ.get('OPEN_WEATHER_MAP_API_KEY')
+WEATHER_STACK_API_KEY = os.environ.get('WEATHER_STACK_API_KEY')
+
 ACTIVE_WEATHER_SOURCE = 'OpenWeatherMap'  # 'OpenWeatherMap' or 'WeatherStack'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -42,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myapi',
-    'rest_framework'
+    'rest_framework',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -131,5 +134,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CACHE_TTL = 60

@@ -12,7 +12,7 @@ class WeatherCity(models.Model):
 
 
 class TopCities(models.Model):
-    """Model for storing top 100 city names."""
+    """Model for storing top city names."""
     city = models.CharField(max_length=30, primary_key=True)
 
     def __str__(self):

@@ -17,8 +17,8 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'collect-weather-for-top-100-cities': {
-        'task': 'myapi.tasks.collect_weather_for_top_100_cities',
-        'schedule': 60 * 60,
+    'collect-weather-for-top-cities': {
+        'task': 'myapi.tasks.collect_weather_for_top_cities',
+        'schedule': 20,
     },
 }

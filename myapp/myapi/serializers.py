@@ -1,8 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import TopCities, WeatherCity
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,23 +15,11 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class WeatherCitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WeatherCity
-        fields = ['city', 'date', 'weather']
-
-
-# class TopCitiesSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = TopCities
-#         fields = ['city']
-
-
 class DateTimeSerializer(serializers.Serializer):
-    date_first = serializers.DateTimeField()
-    date_last = serializers.DateTimeField()
+    datetime_first = serializers.DateTimeField()
+    datetime_last = serializers.DateTimeField()
 
 
 class CityUnitsSerializer(serializers.Serializer):
-    city = serializers.CharField()
+    city = serializers.CharField(max_length=30)
     units = serializers.ChoiceField(choices=['metric', 'imperial'])

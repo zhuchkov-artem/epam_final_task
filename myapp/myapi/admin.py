@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import WeatherCity, TopCities
+
+admin.site.register(WeatherCity)
+admin.site.register(TopCities)

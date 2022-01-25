@@ -1,7 +1,8 @@
-from django.db import migrations
-from ..models import TopCities
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
+from django.db import migrations
+
+from ..models import TopCities
 
 
 def add_top_100_cities(apps, schema_editor):

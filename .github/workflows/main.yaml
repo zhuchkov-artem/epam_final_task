@@ -1,0 +1,20 @@
+name: CI
+
+on: push
+
+jobs:
+  code_quality:
+    runs-on: ubuntu-latest
+    name: Checks with flake8, isort and possibly run tests
+    container: python:3.10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run script
+        run: |
+          pip install -r requirement.txt
+          ls -la
+          flake8 .
+          isort --check .
+          python myapp/manage.py test

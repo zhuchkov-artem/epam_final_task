@@ -1,11 +1,12 @@
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from rest_framework.status import (HTTP_201_CREATED, HTTP_400_BAD_REQUEST,
-                                   HTTP_200_OK, HTTP_503_SERVICE_UNAVAILABLE)
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.status import (HTTP_200_OK, HTTP_201_CREATED,
+                                   HTTP_400_BAD_REQUEST,
+                                   HTTP_503_SERVICE_UNAVAILABLE)
 from rest_framework.views import APIView
 
 from . import services

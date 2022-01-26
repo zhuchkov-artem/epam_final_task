@@ -3,3 +3,4 @@ djangorestframework
 flake8
 isort
 requests
+celery

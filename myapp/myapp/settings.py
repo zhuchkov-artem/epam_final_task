@@ -29,7 +29,7 @@ WEATHER_STACK_API_KEY = os.environ.get('WEATHER_STACK_API_KEY')
 ACTIVE_WEATHER_SOURCE = 'OpenWeatherMap'  # 'OpenWeatherMap' or 'WeatherStack'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 

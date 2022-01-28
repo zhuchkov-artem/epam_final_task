@@ -1,6 +1,5 @@
 import csv
 import json
-import time
 from abc import ABC, abstractmethod
 
 import requests
@@ -24,7 +23,6 @@ class ExternalWeatherRequest(ABC):
         units='metric' for temperature in Celsius
         units='imperial' for temperature in Fahrenheits
         """
-        time.sleep(1)  # External API call timeout
         api_url = cls.generate_api_url(city, units)
         response = requests.get(api_url)
         if response.ok:
